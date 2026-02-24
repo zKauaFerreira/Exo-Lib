@@ -34,13 +34,15 @@ ENV/
 test_assets/
 final_test_assets/
 exported_resources/
-exo-lib/src/exo_inventory/data/
+src/exo_inventory/data/
 .exo_cache/
 
 # Test Images
 test_*.png
-image.png
-render.png
+*.png
+!README.md
+!src/**/*.png  # Keep intentional assets if any
+src/exo_inventory/data/**/*.png # Ignore downloaded assets
 
 # IDEs
 .vscode/
@@ -51,7 +53,3 @@ render.png
 # OS
 .DS_Store
 Thumbs.db
-
-# Agent/AI temp
-.agent/sessions/
-.agent/.shared/ui-ux-pro-max/scripts/__pycache__/
