@@ -261,11 +261,12 @@ if __name__ == "__main__":
         internal_path = os.path.join(os.path.dirname(__file__), "data")
         
         if not args or args[0] == "sync":
-            print(f"🔄 Syncing assets to internal folder: {internal_path}")
-            manager = AssetsManager(internal_path)
+            path = args[1] if len(args) > 1 else internal_path
+            print(f"🔄 Syncing assets to: {os.path.abspath(path)}")
+            manager = AssetsManager(path)
             await manager.initialize()
             await manager.full_sync()
-            print(f"\n✅ Internal assets updated!")
+            print(f"\n✅ Assets updated!")
             
         elif args[0] == "export":
             target = args[1] if len(args) > 1 else "./exo_assets"

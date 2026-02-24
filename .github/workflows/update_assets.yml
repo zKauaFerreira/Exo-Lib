@@ -25,7 +25,7 @@ jobs:
 
       - name: Sync Assets
         run: |
-          python -m exo_inventory.assets sync
+          python -m exo_inventory.assets sync ./src/exo_inventory/data
 
       - name: Commit and Push changes
         run: |
