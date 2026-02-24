@@ -20,33 +20,21 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install ./exo-lib
+          pip install .
           pip install aiohttp Pillow discord.py
 
       - name: Sync Assets
         run: |
-          python -c "
-          import asyncio
-          import os
-          from exo_inventory.assets import AssetsManager
-
-          async def sync():
-              # Ensure the path matches where the bot expects assets
-              manager = AssetsManager('./src/assets')
-              await manager.initialize()
-              await manager.full_sync()
-
-          asyncio.run(sync())
-          "
+          python -m exo_inventory.assets sync
 
       - name: Commit and Push changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          # Adiciona apenas os assets e ignora erros se jemsire_index não existir separadamente
-          git add src/assets/ || true
+          # Force add assets if they are in gitignore
+          git add -f src/exo_inventory/data/ || true
 
-          # Verifica se há algo para commitar (staged)
+          # Check if there's anything to commit
           if ! git diff --cached --quiet; then
             git commit -m "chore: daily assets update [skip ci]"
             git push
