@@ -239,17 +239,22 @@ class AssetsManager:
             for name in self.remote_ui_assets.keys():
                 src = os.path.join(self.ui_dir if "empty" in name else self.cache_dir, name)
                 if os.path.exists(src):
-                    shutil.copy2(src, os.path.join(ui_export if "empty" in name else target_dir, name))
+                    # Keep empty items in ui/ folder, background at the root of target
+                    dest_path = os.path.join(ui_export if "empty" in name else target_dir, name)
+                    shutil.copy2(src, dest_path)
 
-        # 2. Export Icons
+        # 2. Export Icons (Organized by Version)
         to_export = items_list if items_list else self.index.keys()
         for item_id in to_export:
             clean_name = item_id.split(":")[-1].lower()
-            img = await self.get_icon(clean_name)
-            if img:
-                # We use the path_cache to find where the file actually is
-                version = self.index.get(clean_name)
-                cache_key = f"{version}:{clean_name}"
-                src_path = self.path_cache.get(cache_key)
-                if src_path:
-                    shutil.copy2(src_path, os.path.join(target_dir, f"{clean_name}.png"))
+            version = self.index.get(clean_name)
+            if not version: continue
+
+            # Create version subdirectory
+            version_dir = os.path.join(target_dir, "versions", version)
+            os.makedirs(version_dir, exist_ok=True)
+
+            cache_key = f"{version}:{clean_name}"
+            src_path = self.path_cache.get(cache_key)
+            if src_path:
+                shutil.copy2(src_path, os.path.join(version_dir, f"{clean_name}.png"))
