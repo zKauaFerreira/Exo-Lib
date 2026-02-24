@@ -37,11 +37,12 @@ exported_resources/
 src/exo_inventory/data/
 .exo_cache/
 
-# Test Images
+# Test & Example Images
 test_*.png
 *.png
 !README.md
 !src/**/*.png  # Keep intentional assets if any
+!examples/output/*.png # Allow example outputs
 src/exo_inventory/data/**/*.png # Ignore downloaded assets
 
 # IDEs
