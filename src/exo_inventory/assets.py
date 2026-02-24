@@ -18,15 +18,15 @@ class AssetsManager:
         self.base_url = "https://minecraftallimages.jemsire.com"
         self.version_url = "https://raw.githubusercontent.com/TinyTank800/MinecraftAllImages/refs/heads/main/version.json"
         self.github_assets_url = "https://raw.githubusercontent.com/PrismarineJS/minecraft-assets/master/data/1.17.1/items"
-        self.remote_repo_url = "https://raw.githubusercontent.com/zKauaFerreira/Exo-Lib/main/src/assets"
+        self.remote_repo_url = "https://raw.githubusercontent.com/zKauaFerreira/Exo-Lib/main/src/exo_inventory/data"
         
         # Centralized Asset Repositories (for customization)
         self.remote_ui_assets = {
-            "empty_helmet.png": f"{self.github_assets_url}/empty_armor_slot_helmet.png",
-            "empty_chestplate.png": f"{self.github_assets_url}/empty_armor_slot_chestplate.png",
-            "empty_leggings.png": f"{self.github_assets_url}/empty_armor_slot_leggings.png",
-            "empty_boots.png": f"{self.github_assets_url}/empty_armor_slot_boots.png",
-            "empty_shield.png": f"{self.github_assets_url}/empty_armor_slot_shield.png",
+            "empty_helmet.png": f"{self.remote_repo_url}/ui/empty_helmet.png",
+            "empty_chestplate.png": f"{self.remote_repo_url}/ui/empty_chestplate.png",
+            "empty_leggings.png": f"{self.remote_repo_url}/ui/empty_leggings.png",
+            "empty_boots.png": f"{self.remote_repo_url}/ui/empty_boots.png",
+            "empty_shield.png": f"{self.remote_repo_url}/ui/empty_shield.png",
             "inventory_bg.png": f"{self.remote_repo_url}/inventory_bg.png",
             "jemsire_index.json": f"{self.remote_repo_url}/jemsire_index.json"
         }
@@ -36,8 +36,12 @@ class AssetsManager:
         self.versions_dir = os.path.join(cache_dir, "versions")
         self.ui_dir = os.path.join(cache_dir, "ui")
         
-        os.makedirs(self.ui_dir, exist_ok=True)
-        os.makedirs(self.versions_dir, exist_ok=True)
+        try:
+            os.makedirs(self.ui_dir, exist_ok=True)
+            os.makedirs(self.versions_dir, exist_ok=True)
+        except:
+            # Might be in a read-only environment like site-packages
+            pass
         
         self.versions = ["1.21.10", "1.21.6", "1.21.5", "1.21.4", "1.20.6", "1.19.4", "1.18.2", "1.17.1", "1.16.5", "1.15.2", "1.14.4", "1.13.2"]
         self.index = {}
