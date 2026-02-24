@@ -1,5 +1,9 @@
 # 🎒 Exo-Inventory
 
+[![PyPI version](https://img.shields.io/pypi/v/exo-inventory.svg)](https://pypi.org/project/exo-inventory/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python versions](https://img.shields.io/pypi/pyversions/exo-inventory.svg)](https://pypi.org/project/exo-inventory/)
+
 **A powerful, high-performance Minecraft inventory rendering library for Python.**
 
 `exo-inventory` is a professional-grade library designed to fetch, mirror, and render Minecraft item icons and player inventories with 100% customizability. Whether you need a standard player inventory or a completely custom 9x6 chest layout, `exo-inventory` handles the assets and coordinates for you.
@@ -11,7 +15,7 @@
 - 🔄 **Smart Asset Mirroring**: Local mirror of Jemsire's Minecraft icons with automatic version detection (1.13.2 to 1.21.10+).
 - 🖼️ **Flexible Rendering Engine**: Support for arbitrary item placement (`render_custom`) or standard Minecraft layouts (`render_player`).
 - 🤖 **Automated Maintenance**: Integrated GitHub Actions workflow to sync assets and rebuild metadata daily.
-- 🎨 **UI Customization**: Download and cache UI themes (backgrounds, empty slot icons) from remote repositories.
+- 🎨 **UI Assets Bundled**: Core assets (backgrounds, empty slot icons) come **pre-installed** in the package.
 - 👤 **Player Models**: Automatic integration with `mc-heads.net` for rendering 3D player skins.
 - ⚡ **High Performance**: Path caching, recursive item lookup, and asynchronous asset fetching.
 
@@ -27,10 +31,15 @@
 
 ## 🚀 Installation
 
-Install the library directly from your local path or git:
+Install the library directly from PyPI (Recommended):
 
 ```bash
-# Git installation (Recommended)
+pip install exo-inventory
+```
+
+Or from the source:
+
+```bash
 pip install git+https://github.com/zKauaFerreira/Exo-Lib.git
 ```
 
@@ -42,14 +51,14 @@ pip install git+https://github.com/zKauaFerreira/Exo-Lib.git
 
 ### 1. Minimalistic Rendering
 
-Since assets are bundled, you don't even need to provide a path!
+Since assets are bundled, you can render an inventory in seconds!
 
 ```python
 import asyncio
 from exo_inventory import InventoryRenderer
 
 async def main():
-    # USES BUILT-IN ASSETS AUTOMATICALLY
+    # Initializing with built-in assets
     renderer = InventoryRenderer()
     await renderer.initialize()
 
@@ -62,7 +71,8 @@ async def main():
     }
 
     render = await renderer.render_player(player_data)
-    # Save or send to Discord...
+    # The 'render' object is a PIL Image
+    render.save("inventory.png")
 
     await renderer.close()
 
@@ -75,9 +85,9 @@ asyncio.run(main())
 
 We provided a dedicated `examples/` directory in our repository to help you get started with common use cases.
 
-- `standard_inventory.py`: Demonstrates standard player inventory rendering with the requested skin.
-- `custom_grid.py`: Shows how to create 100% custom grids with transparent backgrounds.
-- `manage_assets.py`: Advanced usage: how to sync assets to a custom external folder instead of using the library internal one.
+- `standard_inventory.py`: Demonstrates standard player inventory rendering.
+- `custom_grid.py`: Shows how to create custom grids with transparent backgrounds.
+- `manage_assets.py`: Advanced usage: how to sync assets to a custom external folder.
 
 ---
 
@@ -89,7 +99,6 @@ If you want to manage your icons in a specific shared folder across multiple pro
 
 ```python
 # Pass a path to use an external cache
-assets = AssetsManager("./shared_assets")
 renderer = InventoryRenderer(assets_dir="./shared_assets")
 ```
 
@@ -107,18 +116,18 @@ image = await renderer.render_custom(
 
 ### 📦 Asset Utilities & Exporting
 
-Need the icons for something else? You can export assets from the cache to any directory.
+Need the icons for something else? Export assets from the internal cache to any directory.
 
 ```python
-# Export specific icons and UI elements to a folder
+from exo_inventory import AssetsManager
+assets = AssetsManager()
+await assets.initialize()
+
 await assets.export_assets(
     target_dir="./my_resource_pack",
     items_list=["diamond", "netherite_sword"],
     include_ui=True
 )
-
-# Or just download icons to the internal cache without rendering
-await assets.download_assets(["stone", "grass_block", "dirt"])
 ```
 
 ### 👤 Advanced Player Rendering
@@ -137,13 +146,13 @@ body_img = await renderer.get_player_render(
 
 ### 🛰️ Remote Asset Synchronization
 
-The library can automatically pull UI themes from your GitHub repo:
+The library pulls UI themes and metadata from the official repository:
 
-| Asset                | Source                                  |
-| -------------------- | --------------------------------------- |
-| `inventory_bg.png`   | `zKauaFerreira/Exo-Lib/main/src/assets` |
-| `jemsire_index.json` | Remote metadata mirror                  |
-| `empty_armor_slots`  | PrismarineJS official assets            |
+| Asset                | Source                                              |
+| -------------------- | --------------------------------------------------- |
+| `inventory_bg.png`   | `zKauaFerreira/Exo-Lib/main/src/exo_inventory/data` |
+| `jemsire_index.json` | Remote metadata mirror (daily updated)              |
+| `empty_armor_slots`  | Exo-Lib official UI assets                          |
 
 ---
 
