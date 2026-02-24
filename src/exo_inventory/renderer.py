@@ -61,7 +61,7 @@ class InventoryRenderer:
             async with session.get(url, timeout=5) as resp:
                 if resp.status == 200:
                     return Image.open(io.BytesIO(await resp.read())).convert("RGBA")
-        except: return None
+        except Exception: return None
 
     async def fetch_player_body(self, uuid):
         # Legacy support
@@ -78,7 +78,7 @@ class InventoryRenderer:
             for p in paths:
                 if os.path.exists(p):
                     return ImageFont.truetype(p, 22)
-        except: pass
+        except Exception: pass
         return ImageFont.load_default()
 
     async def draw_item(self, img, draw, font, item_id, count, x, y, empty_type=None):

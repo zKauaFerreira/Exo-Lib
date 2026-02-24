@@ -39,7 +39,7 @@ class AssetsManager:
         try:
             os.makedirs(self.ui_dir, exist_ok=True)
             os.makedirs(self.versions_dir, exist_ok=True)
-        except:
+        except Exception:
             # Might be in a read-only environment like site-packages
             pass
         
@@ -122,7 +122,7 @@ class AssetsManager:
                         for item in data.get("images", []):
                             name = item.replace(".png", "").lower()
                             temp_map[name] = []
-        except: pass
+        except Exception: pass
 
         # 2. Changes per version (old to new, so new prevails)
         for version in reversed(self.versions):
@@ -139,7 +139,7 @@ class AssetsManager:
                                 if name not in temp_map: temp_map[name] = []
                                 # Add to start so vers[0] is always the most recent
                                 temp_map[name].insert(0, version)
-            except: pass
+            except Exception: pass
 
         final_index = {}
         for name, vers in temp_map.items():
@@ -182,10 +182,6 @@ class AssetsManager:
         print(f"✨ [Assets] Mirror ready! {len(self.index)} items | {total_mb:.2f} MB")
         self._ready = True
 
-    async def download_assets(self, items_list):
-        """Ensures a list of item icons are downloaded in the local cache."""
-        # This is mostly for external caches, internal one is pre-synced
-        pass
 
     async def resolve_path(self, item_id):
         """Returns the local filesystem path for an item icon without loading it."""
@@ -216,7 +212,7 @@ class AssetsManager:
         if path:
             try:
                 return Image.open(path).convert("RGBA")
-            except:
+            except Exception:
                 pass
         return None
 
