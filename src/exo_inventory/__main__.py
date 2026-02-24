@@ -14,7 +14,7 @@ async def run_cli():
         manager = AssetsManager(path)
         await manager.initialize()
         await manager.full_sync()
-        print(f"\n✅ Assets updated!")
+        print("\n✅ Assets updated!")
         
     elif args[0] == "export":
         target = args[1] if len(args) > 1 else "./exo_assets"

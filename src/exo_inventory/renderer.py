@@ -183,7 +183,7 @@ class InventoryRenderer:
                 # If it's shorter than 166, it will just cover the top part
                 gui_scaled = gui_img.resize((gw * SCALE, gh * SCALE), Image.Resampling.NEAREST)
                 final_bg.paste(gui_scaled, (0, 0), gui_scaled)
-            except: pass
+            except Exception: pass
 
         items = []
         

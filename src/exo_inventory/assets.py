@@ -60,7 +60,7 @@ class AssetsManager:
                     data = json.load(f)
                     self.index = data.get("index", {})
                     self.local_version = data.get("version", "")
-            except:
+            except Exception:
                 needs_rebuild = True
         else:
             needs_rebuild = True
