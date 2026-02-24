@@ -22,78 +22,78 @@
 Install the library directly from your local path or git:
 
 ```bash
-# Local installation
-pip install ./exo-lib
-
-# Git installation (once published)
+# Git installation (Recommended)
 pip install git+https://github.com/zKauaFerreira/Exo-Lib.git
 ```
 
+> **Note:** The library already comes with **1400+ Minecraft icons and UI assets** bundled in the package. You can start rendering immediately after installation!
+
 ---
 
-## ⚡ Quick Start (In 5 Minutes)
+## ⚡ Quick Start (Plug & Play)
 
-### 1. Initialize Assets
+### 1. Minimalistic Rendering
 
-The `AssetsManager` handles all the heavy lifting of downloading and indexing icons.
+Since assets are bundled, you don't even need to provide a path!
 
 ```python
 import asyncio
-from exo_inventory import AssetsManager, InventoryRenderer
+from exo_inventory import InventoryRenderer
 
 async def main():
-    # Path where icons will be mirrored
-    assets = AssetsManager("./assets_cache")
-
-    # Initialize index and download UI assets
-    await assets.initialize()
-
-    # Optional: Perform a full sync of all Minecraft icons (heavy)
-    # await assets.full_sync()
-
-asyncio.run(main())
-```
-
-### 2. Render a Player Inventory
-
-Use the built-in helper for standard player data.
-
-```python
-async def render():
-    renderer = InventoryRenderer("./assets_cache")
+    # USES BUILT-IN ASSETS AUTOMATICALLY
+    renderer = InventoryRenderer()
+    await renderer.initialize()
 
     player_data = {
-        "uuid": "7be0ee8d-389a-44c9-a9bf-513f7960bcbf",
+        "uuid": "caf29aa7-b3f6-494f-b44f-66cdd3fb9a42",
         "armor": [{"id": "diamond_helmet", "slot": 39}],
-        "hotbar": [{"id": "netherite_sword", "slot": 0, "count": 1}],
+        "hotbar": [{"id": "netherite_sword", "slot": 0}],
         "main_inventory": [],
         "off_hand": {"id": "shield"}
     }
 
-    image_path = await renderer.render_player(player_data)
-    print(f"Inventory saved to: {image_path}")
+    render = await renderer.render_player(player_data)
+    # Save or send to Discord...
+
+    await renderer.close()
+
+asyncio.run(main())
 ```
+
+---
+
+## 📂 Examples Folder
+
+We provided a dedicated `examples/` directory in our repository to help you get started with common use cases.
+
+- `standard_inventory.py`: Demonstrates standard player inventory rendering with the requested skin.
+- `custom_grid.py`: Shows how to create 100% custom grids with transparent backgrounds.
+- `manage_assets.py`: Advanced usage: how to sync assets to a custom external folder instead of using the library internal one.
 
 ---
 
 ## 🛠️ Advanced Usage
 
-### 🧩 100% Custom Layout (`render_custom`)
+### 🎨 Customizing Asset Locations
 
-Don't be limited by standard UI. Place any item anywhere.
+If you want to manage your icons in a specific shared folder across multiple projects:
 
 ```python
-items = [
-    {"id": "apple", "x": 8, "y": 8, "count": 64},
-    {"id": "gold_ingot", "x": 26, "y": 8, "count": 32},
-    {"id": "diamond", "x": 8, "y": 26, "empty": "helmet"} # Shows helmet icon if diamond is missing
-]
+# Pass a path to use an external cache
+assets = AssetsManager("./shared_assets")
+renderer = InventoryRenderer(assets_dir="./shared_assets")
+```
 
-await renderer.render_custom(
-    items_map=items,
-    width=176,
-    height=166,
-    background="custom_bg.png"
+### 🧩 Custom Layouts
+
+```python
+# background=None generates a transparent PNG
+image = await renderer.render_custom(
+    items_map=[{"id": "apple", "x": 10, "y": 10}],
+    width=100,
+    height=100,
+    background=None
 )
 ```
 
