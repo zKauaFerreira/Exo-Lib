@@ -5,14 +5,28 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "exo-inventory"
 version = "0.1.0"
-description = "Minecraft Inventory Rendering and Asset Management"
+authors = [
+  { name="zKauaFerreira", email="kaua.ferreira@gmail.com" },
+]
+description = "Professional Minecraft Inventory Rendering and Asset Mirroring library"
 readme = "README.md"
 requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Multimedia :: Graphics",
+    "Intended Audience :: Developers",
+]
 dependencies = [
     "Pillow>=10.0.0",
     "aiohttp>=3.8.0",
     "discord.py>=2.0.0"
 ]
+
+[project.urls]
+"Homepage" = "https://github.com/zKauaFerreira/Exo-Lib"
+"Bug Tracker" = "https://github.com/zKauaFerreira/Exo-Lib/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
