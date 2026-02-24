@@ -11,7 +11,7 @@ SLOT_SIZE = 16
 SLOT_STEP = 18
 
 class InventoryRenderer:
-    def __init__(self, assets_dir):
+    def __init__(self, assets_dir=None):
         self.assets = AssetsManager(assets_dir)
         self.session = None
         self._initialized = False
