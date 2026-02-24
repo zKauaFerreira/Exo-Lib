@@ -1,0 +1,5 @@
+recursive-include src/exo_inventory/data *
+recursive-include src/exo_inventory/data/ui *.png
+recursive-include src/exo_inventory/data/versions *.png
+include src/exo_inventory/data/*.json
+include src/exo_inventory/data/*.png

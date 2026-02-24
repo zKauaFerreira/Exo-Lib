@@ -51,6 +51,7 @@ class AssetsManager:
 
     async def initialize(self, force_sync=False):
         """Loads index and checks for updates."""
+        print(f"📦 [Assets] Initializing using directory: {self.cache_dir}")
         needs_rebuild = force_sync
         
         if os.path.exists(self.cache_file):

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "exo-inventory"
-version = "0.1.4"
+version = "0.1.5"
 authors = [
   { name="zKauaFerreira", email="kaua.ferreira@gmail.com" },
 ]
@@ -32,4 +32,4 @@ dependencies = [
 where = ["src"]
 
 [tool.setuptools.package-data]
-exo_inventory = ["data/**", "data/ui/*.png", "data/versions/**/*.png"]
+exo_inventory = ["data/*.png", "data/*.json", "data/ui/*.png", "data/versions/**/*.png"]
