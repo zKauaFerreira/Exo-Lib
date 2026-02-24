@@ -34,7 +34,6 @@ ENV/
 test_assets/
 final_test_assets/
 exported_resources/
-src/exo_inventory/data/
 .exo_cache/
 
 # Test & Example Images
@@ -43,7 +42,7 @@ test_*.png
 !README.md
 !src/**/*.png  # Keep intentional assets if any
 !examples/output/*.png # Allow example outputs
-src/exo_inventory/data/**/*.png # Ignore downloaded assets
+# src/exo_inventory/data/**/*.png # REMOVED: We need these for the package!
 
 # IDEs
 .vscode/
