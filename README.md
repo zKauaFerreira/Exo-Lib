@@ -19,9 +19,9 @@
 
 ## 🖼️ Visual Previews
 
-|                 Standard Inventory                  |              Custom Transparent Grid              |
-| :-------------------------------------------------: | :-----------------------------------------------: |
-| ![Standard](examples/output/standard_inventory.png) | ![Custom](examples/output/custom_transparent.png) |
+|                                                Standard Inventory                                                |                                            Custom Transparent Grid                                             |
+| :--------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: |
+| ![Standard](https://raw.githubusercontent.com/zKauaFerreira/Exo-Lib/main/examples/output/standard_inventory.png) | ![Custom](https://raw.githubusercontent.com/zKauaFerreira/Exo-Lib/main/examples/output/custom_transparent.png) |
 
 ---
 
