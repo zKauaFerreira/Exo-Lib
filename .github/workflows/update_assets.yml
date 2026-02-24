@@ -1,0 +1,55 @@
+name: Daily Assets Update
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Every day at midnight
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-assets:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install ./exo-lib
+          pip install aiohttp Pillow discord.py
+
+      - name: Sync Assets
+        run: |
+          python -c "
+          import asyncio
+          import os
+          from exo_inventory.assets import AssetsManager
+
+          async def sync():
+              # Ensure the path matches where the bot expects assets
+              manager = AssetsManager('./src/assets')
+              await manager.initialize()
+              await manager.full_sync()
+
+          asyncio.run(sync())
+          "
+
+      - name: Commit and Push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          # Adiciona apenas os assets e ignora erros se jemsire_index não existir separadamente
+          git add src/assets/ || true
+
+          # Verifica se há algo para commitar (staged)
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: daily assets update [skip ci]"
+            git push
+          else
+            echo "No changes in assets to commit."
+          fi
