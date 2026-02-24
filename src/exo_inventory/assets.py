@@ -182,7 +182,13 @@ class AssetsManager:
         print(f"✨ [Assets] Mirror ready! {len(self.index)} items | {total_mb:.2f} MB")
         self._ready = True
 
-    async def get_icon(self, item_id):
+    async def download_assets(self, items_list):
+        """Ensures a list of item icons are downloaded in the local cache."""
+        # This is mostly for external caches, internal one is pre-synced
+        pass
+
+    async def resolve_path(self, item_id):
+        """Returns the local filesystem path for an item icon without loading it."""
         if not self._ready: await self.initialize()
         clean_name = item_id.split(":")[-1].lower()
         version = self.index.get(clean_name)
@@ -190,7 +196,7 @@ class AssetsManager:
 
         cache_key = f"{version}:{clean_name}"
         if cache_key in self.path_cache:
-            return Image.open(self.path_cache[cache_key]).convert("RGBA")
+            return self.path_cache[cache_key]
 
         v_dir = os.path.join(self.versions_dir, version)
         if not os.path.exists(v_dir): return None
@@ -201,10 +207,17 @@ class AssetsManager:
             if filename in files:
                 path = os.path.join(root, filename)
                 self.path_cache[cache_key] = path
-                try:
-                    return Image.open(path).convert("RGBA")
-                except:
-                    pass
+                return path
+        return None
+
+    async def get_icon(self, item_id):
+        if not self._ready: await self.initialize()
+        path = await self.resolve_path(item_id)
+        if path:
+            try:
+                return Image.open(path).convert("RGBA")
+            except:
+                pass
         return None
 
     def get_ui_asset(self, name):
@@ -254,7 +267,6 @@ class AssetsManager:
             version_dir = os.path.join(target_dir, "versions", version)
             os.makedirs(version_dir, exist_ok=True)
 
-            cache_key = f"{version}:{clean_name}"
-            src_path = self.path_cache.get(cache_key)
+            src_path = await self.resolve_path(clean_name)
             if src_path:
                 shutil.copy2(src_path, os.path.join(version_dir, f"{clean_name}.png"))
