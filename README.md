@@ -17,6 +17,14 @@
 
 ---
 
+## 🖼️ Visual Previews
+
+|                 Standard Inventory                  |              Custom Transparent Grid              |
+| :-------------------------------------------------: | :-----------------------------------------------: |
+| ![Standard](examples/output/standard_inventory.png) | ![Custom](examples/output/custom_transparent.png) |
+
+---
+
 ## 🚀 Installation
 
 Install the library directly from your local path or git:
